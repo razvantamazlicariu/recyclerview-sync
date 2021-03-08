@@ -3,7 +3,7 @@
     android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="60dp"
-    android:minWidth="50dp">
+    android:minWidth="150dp">
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"

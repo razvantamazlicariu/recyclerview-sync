@@ -13,11 +13,11 @@ class DashboardViewModel : ViewModel() {
 
     init {
         val parentItem = ParentItem().apply {
-            numbers1 = generateItem(10, Color.MAGENTA)
-            numbers2 = generateItem(5, Color.YELLOW)
-            numbers3 = generateItem(4, Color.RED)
-            numbers4 = generateItem(5, Color.GRAY)
-            numbers5 = generateItem(15, Color.GREEN)
+            numbers1 = generateItem(20, Color.MAGENTA)
+            numbers2 = generateItem(20, Color.YELLOW)
+            numbers3 = generateItem(20, Color.RED)
+            numbers4 = generateItem(20, Color.GRAY)
+            numbers5 = generateItem(20, Color.GREEN)
         }
 
         _item.value = parentItem
@@ -25,8 +25,8 @@ class DashboardViewModel : ViewModel() {
 
     fun generateItem(count:Int, color:Int):List<ChildItem> {
         val arrayList = arrayListOf<ChildItem>()
-        for(i in 0..count) {
-            arrayList.add(ChildItem(Random.nextInt(1, 200), color))
+        for(i in 10..count*10 step 10) {
+            arrayList.add(ChildItem(i, color))
         }
         return  arrayList.toList()
     }

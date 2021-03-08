@@ -1,9 +1,11 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.databinding.RowChildReyclerViewBinding
+import kotlin.random.Random
 
 class ChildRecyclerViewHolder(private val binding: RowChildReyclerViewBinding) : RecyclerView.ViewHolder(binding.root)
 {
@@ -13,6 +15,9 @@ class ChildRecyclerViewHolder(private val binding: RowChildReyclerViewBinding) :
         this.item = item
         binding.text.text = item.number.toString()
         binding.container.setBackgroundColor(item.color)
+//        val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, item.number.toFloat(), itemView.context.resources.displayMetrics)
+        val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Random.nextInt(20, 200).toFloat(), itemView.context.resources.displayMetrics)
+        binding.container.layoutParams.width = widthPx.toInt()
     }
 
     companion object {

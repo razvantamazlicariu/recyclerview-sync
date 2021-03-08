@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_height="match_parent"
+        android:splitMotionEvents="false"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

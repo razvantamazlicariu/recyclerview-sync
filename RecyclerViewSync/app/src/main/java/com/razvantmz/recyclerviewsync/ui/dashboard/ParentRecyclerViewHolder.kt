@@ -13,14 +13,15 @@ class ParentRecyclerViewHolder(private val binding: RowParentReyclerViewBinding)
     RecyclerView.ViewHolder(binding.root) {
     private var list: List<ChildItem>? = null
 
-    fun bind(list:List<ChildItem>) {
+    fun bind(list:List<ChildItem>):RecyclerView {
         this.list = list;
-        val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, itemView.context.resources.displayMetrics).toInt()
+        val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, itemView.context.resources.displayMetrics).toInt()
         binding.recyclerView.apply {
-            addItemDecoration(ItemOffsetDecoration(offsetPx))
+            addItemDecoration(ItemOffsetDecoration(offsetPx, 0, offsetPx, 0))
             layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
             adapter = ChildRecyclerViewAdapter(list)
         }
+        return binding.recyclerView
     }
 
     companion object {

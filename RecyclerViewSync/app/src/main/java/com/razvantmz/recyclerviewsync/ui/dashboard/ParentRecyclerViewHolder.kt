@@ -11,9 +11,9 @@ import com.razvantmz.recyclerviewsync.databinding.RowParentReyclerViewBinding
 
 class ParentRecyclerViewHolder(private val binding: RowParentReyclerViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    private var list: List<ChildItem>? = null
+    private var list: MutableList<ChildItem>? = null
 
-    fun bind(list:List<ChildItem>):RecyclerView {
+    fun bind(list:MutableList<ChildItem>):RecyclerView {
         this.list = list;
         val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, itemView.context.resources.displayMetrics).toInt()
         binding.recyclerView.apply {

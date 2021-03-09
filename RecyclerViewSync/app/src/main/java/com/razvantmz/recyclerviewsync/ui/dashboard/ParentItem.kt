@@ -1,10 +1,10 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard
 
 class ParentItem(
-    var numbers1: List<ChildItem> = listOf(),
-    var numbers2: List<ChildItem> = listOf(),
-    var numbers3: List<ChildItem> = listOf(),
-    var numbers4: List<ChildItem> = listOf(),
-    var numbers5: List<ChildItem> = listOf()
+    var numbers1: MutableList<ChildItem> = mutableListOf(),
+    var numbers2: MutableList<ChildItem> = mutableListOf(),
+    var numbers3: MutableList<ChildItem> = mutableListOf(),
+    var numbers4: MutableList<ChildItem> = mutableListOf(),
+    var numbers5: MutableList<ChildItem> = mutableListOf()
 ) {
 }

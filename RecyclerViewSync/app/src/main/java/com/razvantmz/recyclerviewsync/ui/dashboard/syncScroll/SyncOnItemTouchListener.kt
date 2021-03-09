@@ -2,6 +2,7 @@ package com.razvantmz.recyclerviewsync.ui.dashboard.syncScroll
 
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.razvantmz.recyclerviewsync.ui.dashboard.CustomLinearLayoutManager
@@ -11,7 +12,8 @@ class SyncScrollManager(var list: List<RecyclerView>) {
 
 }
 
-class SyncOnItemTouchListener(var list: List<RecyclerView>) : RecyclerView.OnItemTouchListener {
+class SyncOnItemTouchListener(var list: List<RecyclerView>, val owner: RecyclerView) :
+    RecyclerView.OnItemTouchListener, View.OnTouchListener {
 
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
@@ -36,14 +38,26 @@ class SyncOnItemTouchListener(var list: List<RecyclerView>) : RecyclerView.OnIte
         val areRecyclersInIdleState = list.all {
             it.scrollState == RecyclerView.SCROLL_STATE_IDLE
         }
-        Log.e(
-            "scrollState",
-            "${rv.scrollState}, areInIdleState: $areRecyclersInIdleState, action: ${e.action}"
-        )
-
         return false
     }
 
     override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+    }
+
+    private var touched: Boolean = false;
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        if(event?.action == MotionEvent.ACTION_DOWN) {
+            touched = false
+        }
+        if (!touched) {
+            touched = true
+            list.forEach {
+                if (it != owner) {
+                    it.onTouchEvent(event)
+                }
+            }
+        }
+        return false
     }
 }

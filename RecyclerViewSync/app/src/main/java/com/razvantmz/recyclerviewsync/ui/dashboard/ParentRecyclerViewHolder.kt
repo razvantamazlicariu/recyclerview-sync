@@ -13,7 +13,7 @@ class ParentRecyclerViewHolder(private val binding: RowParentReyclerViewBinding)
     RecyclerView.ViewHolder(binding.root) {
     private var list: MutableList<ChildItem>? = null
 
-    fun bind(list:MutableList<ChildItem>):RecyclerView {
+    fun bind(list:MutableList<ChildItem>, listTag:Int):RecyclerView {
         this.list = list;
         val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, itemView.context.resources.displayMetrics).toInt()
         binding.recyclerView.apply {
@@ -22,6 +22,7 @@ class ParentRecyclerViewHolder(private val binding: RowParentReyclerViewBinding)
             adapter = ChildRecyclerViewAdapter(list)
             setHasFixedSize(false)
             isNestedScrollingEnabled = false
+            tag = listTag
         }
         return binding.recyclerView
     }

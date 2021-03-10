@@ -8,23 +8,23 @@
     android:splitMotionEvents="false"
     tools:context=".ui.home.HomeFragment">
 
-   <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+   <com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
        android:id="@+id/recyclerView1"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>
-    <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+    <com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
         android:id="@+id/recyclerView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+    <com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
         android:id="@+id/recyclerView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+    <com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
         android:id="@+id/recyclerView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+    <com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
         android:id="@+id/recyclerView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

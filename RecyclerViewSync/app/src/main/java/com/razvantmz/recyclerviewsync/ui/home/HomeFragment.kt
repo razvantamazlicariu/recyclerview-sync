@@ -11,14 +11,15 @@ import com.razvantmz.recyclerviewsync.databinding.FragmentHomeBinding
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerViewAdapter
 import com.razvantmz.recyclerviewsync.ui.dashboard.CustomLinearLayoutManager
 import com.razvantmz.recyclerviewsync.ui.dashboard.ItemOffsetDecoration
-import com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerView
+import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.syncScroll.SelfRemovingOnScrollListener
+import com.razvantmz.recyclerviewsync.ui.notifications.SyncOnItemTouchListener2
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private val rvList: ArrayList<ParentRecyclerView> = arrayListOf()
+    private val rvList: ArrayList<ChildRecyclerView> = arrayListOf()
     private val sOSLList: ArrayList<SelfRemovingOnScrollListener> = arrayListOf()
 
     private var currentTouchedRecyclerView: Int? = null
@@ -79,29 +80,6 @@ class HomeFragment : Fragment() {
             isNestedScrollingEnabled = false
         }
 
-        val onTouchListener2 = object : RecyclerView.OnItemTouchListener {
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-
-            }
-
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                rvList.forEach {
-                    if (it != rv) {
-//                        it.onTouchEvent(e)
-//                        it.onHoverEvent(e)
-//                        it.dispatchCapturedPointerEvent(e)
-                        it.dispatchGenericMotionEvent(e)
-                        it.dispatchTouchEvent(e)
-                    }
-                }
-                return false
-            }
-
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-            }
-        }
-
-
         binding.recyclerView5.apply {
             addItemDecoration(ItemOffsetDecoration(offsetPx))
             layoutManager =
@@ -110,7 +88,6 @@ class HomeFragment : Fragment() {
                 ChildRecyclerViewAdapter(homeViewModel.item.value?.numbers5 ?: mutableListOf())
             tag = 5
             isNestedScrollingEnabled = false
-//            addOnItemTouchListener(onTouchListener2)
         }
 
         rvList.add(binding.recyclerView1)
@@ -119,96 +96,11 @@ class HomeFragment : Fragment() {
         rvList.add(binding.recyclerView4)
         rvList.add(binding.recyclerView5)
 
-        val onScrollListener = object : RecyclerView.OnScrollListener() {
-            var offsetX: Int = 0
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                offsetX += dx
-                if (recyclerView.tag == currentTouchedRecyclerView) {
-                    rvList.forEach {
-                        if (it.tag != currentTouchedRecyclerView) {
-                            it.scrollBy(dx, dy)
-                        }
-                    }
-                }
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        }
-
-//        val onTouchListener = object : RecyclerView.OnItemTouchListener {
-//            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-//
-//            }
-//
-//            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-//                if(previousTouchedRecyclerView == null) {
-//                    previousTouchedRecyclerView = currentTouchedRecyclerView
-//                    currentTouchedRecyclerView = rv.tag as Int
-//                }
-//
-//                if(currentTouchedRecyclerView == rv.tag) {
-//                    rvList.forEach {
-//                        if (it != rv) {
-//                            it.onTouchEvent(e)
-//    //                        it.onHoverEvent(e)
-//    //                        it.dispatchCapturedPointerEvent(e)
-////                            it.dispatchGenericMotionEvent(e)
-////                            it.dispatchTouchEvent(e)
-//                        }
-//                    }
-//
-//                }
-//                return false
-//            }
-//
-//            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-//            }
-//        }
-
+        val listener2 = SyncOnItemTouchListener2(rvList)
         rvList.forEach {
-            it.addOnScrollListener(onScrollListener)
-            it.addOnItemTouchListener(object : CustomOnItemTouchListener(it) {
-                override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-
-                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                    if(!updateBlock) {
-                        currentTouchedRecyclerView = rv.tag as Int
-                        updateBlock = true
-                    }
-                    updateBlock = false
-
-//                    if (owner.tag == currentTouchedRecyclerView) {
-//                        rvList.forEach { recycler ->
-//                            if (recycler != rv) {
-//                                recycler.onTouchEvent(e)
-//                            }
-//                        }
-//                        updateBlock = false
-//                    }
-                    return false
-                }
-
-                override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-            })
-//            it.onFlingListener = object : CustomFlingListener(it) {
-//                override fun onFling(velocityX: Int, velocityY: Int): Boolean {
-//                    if(currentTouchedRecyclerView == owner.tag) {
-//                        rvList.forEach { rv ->
-//                            if(rv != owner) {
-//                                rv.fling(velocityX, velocityY)
-//                            }
-//                        }
-//                    }
-//                    return false
-//                }
-//            }
-//            it.setOnTouchListener { v, event -> gestureDetector.onTouchEvent(event) }
+            it.addOnItemTouchListener(listener2)
         }
 
-//        binding.recyclerView1.addOnScrollListener(SelfRemovingOnScrollListener(rvList))
         return binding.root
     }
 }

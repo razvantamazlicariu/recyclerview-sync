@@ -20,7 +20,6 @@ class ChildRecyclerView : RecyclerView {
 
     override fun onScrolled(dx: Int, dy: Int) {
         mScrolledX += dx
-
         super.onScrolled(dx, dy)
     }
 
@@ -28,32 +27,24 @@ class ChildRecyclerView : RecyclerView {
         return mScrolledX
     }
 
-    override fun addOnScrollListener(listener: OnScrollListener) {
+    fun addOnScrollListenerWithCheck(listener: OnScrollListener) {
         if (listener is SyncOnItemTouchListener2) {
             if (mIsHorizontalScrollListenerRemoved) {
                 mIsHorizontalScrollListenerRemoved = false
                 super.addOnScrollListener(listener)
             } else {
                 // Do not let add the listener
-                Log.w("##Sync","mIsHorizontalScrollListenerRemoved has been tried to add itself "
-                            + "before remove the old one"
-                )
+                Log.w("##Sync","mIsHorizontalScrollListenerRemoved has tried to add itself before remove the old one")
             }
         } else {
+            Log.e("##SYNC", "Another type listener has been added to ${this.tag} at action down")
             super.addOnScrollListener(listener)
         }
     }
 
-    override fun removeOnScrollListener(listener: OnScrollListener) {
+    fun removeOnScrollListenerWithCheck(listener: OnScrollListener) {
         mIsHorizontalScrollListenerRemoved = true
         super.removeOnScrollListener(listener)
-    }
-
-    override fun fling(velocityX: Int, velocityY: Int): Boolean {
-        // Adjust speeds to be able to provide smoother scroll.
-        //velocityX *= 0.6;
-        //velocityY *= 0.6;
-        return super.fling(velocityX, velocityY)
     }
 
     fun isHorizontalScrollListenerRemoved(): Boolean {

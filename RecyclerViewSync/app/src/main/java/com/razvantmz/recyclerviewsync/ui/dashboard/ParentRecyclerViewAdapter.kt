@@ -1,8 +1,5 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard
 
-import android.view.GestureDetector
-import android.view.MotionEvent
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.syncScroll.SyncOnItemTouchListener
@@ -18,12 +15,12 @@ class ParentRecyclerViewAdapter(private var item:ParentItem) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ParentRecyclerViewHolder, position: Int) {
         when(position) {
-            0 -> rvList.add(holder.bind(item.numbers1))
-            1 -> rvList.add(holder.bind(item.numbers2))
-            2 -> rvList.add(holder.bind(item.numbers3))
-            3 -> rvList.add(holder.bind(item.numbers4))
+            0 -> rvList.add(holder.bind(item.numbers1, 1))
+            1 -> rvList.add(holder.bind(item.numbers2, 2))
+            2 -> rvList.add(holder.bind(item.numbers3, 3))
+            3 -> rvList.add(holder.bind(item.numbers4, 4))
             4 -> {
-            rvList.add(holder.bind(item.numbers5))
+            rvList.add(holder.bind(item.numbers5, 5))
                 syncRecyclerViewScroll()
             }
         }
@@ -33,7 +30,6 @@ class ParentRecyclerViewAdapter(private var item:ParentItem) : RecyclerView.Adap
         rvList.forEach {
             val syncOnItemTouchListener = SyncOnItemTouchListener(rvList, it)
             it.addOnItemTouchListener(syncOnItemTouchListener)
-//            it.setOnTouchListener(syncOnItemTouchListener)
         }
     }
 }

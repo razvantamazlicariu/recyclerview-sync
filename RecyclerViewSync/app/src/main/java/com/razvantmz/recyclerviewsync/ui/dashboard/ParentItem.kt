@@ -6,5 +6,4 @@ class ParentItem(
     var numbers3: MutableList<ChildItem> = mutableListOf(),
     var numbers4: MutableList<ChildItem> = mutableListOf(),
     var numbers5: MutableList<ChildItem> = mutableListOf()
-) {
-}
+)

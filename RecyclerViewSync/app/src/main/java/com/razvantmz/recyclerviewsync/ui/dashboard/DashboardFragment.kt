@@ -31,15 +31,6 @@ class DashboardFragment : Fragment() {
             adapter = parentAdapter
         }
 
-//        dashboardViewModel.item.observe(viewLifecycleOwner, Observer {
-//            parentAdapter.setData(it)
-//        })
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-//        parentAdapter.syncRecyclerViewScroll()
     }
 }

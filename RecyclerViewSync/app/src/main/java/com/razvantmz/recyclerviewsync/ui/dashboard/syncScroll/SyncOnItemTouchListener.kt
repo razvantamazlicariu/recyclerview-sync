@@ -7,11 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.razvantmz.recyclerviewsync.ui.dashboard.CustomLinearLayoutManager
 
-class SyncScrollManager(var list: List<RecyclerView>) {
-
-
-}
-
 class SyncOnItemTouchListener(var list: List<RecyclerView>, val owner: RecyclerView) :
     RecyclerView.OnItemTouchListener, View.OnTouchListener {
 

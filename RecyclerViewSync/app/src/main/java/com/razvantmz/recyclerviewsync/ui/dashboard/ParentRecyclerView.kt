@@ -14,7 +14,14 @@ class ParentRecyclerView : RecyclerView {
         defStyleAttr
     )
 
-    override fun onScrollStateChanged(state: Int) {
-        super.onScrollStateChanged(state)
+    override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
+        return super.onInterceptTouchEvent(e)
+    }
+
+    override fun fling(velocityX: Int, velocityY: Int): Boolean {
+        // Adjust speeds to be able to provide smoother scroll.
+        //velocityX *= 0.6;
+        //velocityY *= 0.6;
+        return super.fling(velocityX, velocityY)
     }
 }

@@ -11,8 +11,8 @@ class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildRecyclerViewHolder {
         val holder = ChildRecyclerViewHolder.create(parent)
-        holder.binding.container.setOnLongClickListener(this)
-        holder.binding.container.setOnDragListener(DragListener(listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)))
+//        holder.binding.container.setOnLongClickListener(this)
+//        holder.binding.container.setOnDragListener(DragListener(listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)))
         return  holder
     }
 
@@ -35,6 +35,7 @@ class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : Recyc
     override fun onLongClick(v: View?): Boolean {
         val data = ClipData.newPlainText("", "")
         val shadowBuilder = View.DragShadowBuilder(v)
+//        shadowBuilder.view.background
         v?.startDragAndDrop(data, shadowBuilder, v, 0)
         return true
     }

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
+import com.razvantmz.recyclerviewsync.ui.dashboard.drag.DragListener
 
 class SyncOnItemTouchListener2(var list: List<RecyclerView>) :
     RecyclerView.OnItemTouchListener, RecyclerView.OnScrollListener() {
@@ -61,7 +62,7 @@ class SyncOnItemTouchListener2(var list: List<RecyclerView>) :
 
     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
-        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+        if (newState == RecyclerView.SCROLL_STATE_IDLE && !DragListener.dragStarted()) {
             (recyclerView as ChildRecyclerView).removeOnScrollListenerWithCheck(this)
             Log.d("##SYNC","Scroll listener has been removed to ${recyclerView.tag} at onScrollStateChanged")
             mIsMoved = false

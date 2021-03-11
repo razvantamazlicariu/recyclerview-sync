@@ -19,7 +19,7 @@ class ParentRecyclerViewHolder(private val binding: RowParentReyclerViewBinding)
         binding.recyclerView.apply {
             addItemDecoration(ItemOffsetDecoration(offsetPx, 0, offsetPx, 0))
             layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = ChildRecyclerViewAdapter(list)
+            adapter = ChildRecyclerViewAdapter(list, null)
             setHasFixedSize(false)
             isNestedScrollingEnabled = false
             tag = listTag

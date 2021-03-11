@@ -34,24 +34,28 @@ class HomeFragment : Fragment() {
         rvList.add(binding.recyclerView5)
 
         val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
-        val listener2 =
-            SyncOnItemTouchListener2(
-                rvList
-            )
-
+        val listener2 = SyncOnItemTouchListener2(rvList)
+        val halfScreenWidth = resources.displayMetrics.widthPixels /2
         rvList.forEachIndexed { index, childRecyclerView ->
             childRecyclerView.apply {
                 addItemDecoration(ItemOffsetDecoration(offsetPx))
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                adapter = ChildRecyclerViewAdapter(homeViewModel.item.value?.getListByIndex(index) ?: mutableListOf())
+                adapter = ChildRecyclerViewAdapter(homeViewModel.item.value?.getListByIndex(index) ?: mutableListOf(), listener2)
                 tag = index
                 isNestedScrollingEnabled = false
                 addOnItemTouchListener(listener2)
+//                setPadding(halfScreenWidth, 0, halfScreenWidth, 0)
+                clipToPadding = false
                 clipChildren = false
 //                ItemTouchHelper(DragAndDropListener()).attachToRecyclerView(this)
             }
         }
 
+        binding.container.apply {
+            clipChildren = true
+            clipToOutline = true
+            clipToPadding = true
+        }
 
         return binding.root
     }

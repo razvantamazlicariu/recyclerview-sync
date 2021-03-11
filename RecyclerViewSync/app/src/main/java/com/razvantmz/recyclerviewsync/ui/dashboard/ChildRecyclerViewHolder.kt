@@ -2,6 +2,7 @@ package com.razvantmz.recyclerviewsync.ui.dashboard
 
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.databinding.RowChildReyclerViewBinding
@@ -10,7 +11,6 @@ import kotlin.random.Random
 class ChildRecyclerViewHolder(val binding: RowChildReyclerViewBinding) : RecyclerView.ViewHolder(binding.root)
 {
     private var item: ChildItem? = null
-
     fun bind(item:ChildItem, position:Int) {
         this.item = item
         binding.text.text = item.number.toString()

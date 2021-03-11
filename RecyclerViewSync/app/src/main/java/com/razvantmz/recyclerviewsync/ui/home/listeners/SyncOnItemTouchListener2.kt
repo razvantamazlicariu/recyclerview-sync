@@ -1,4 +1,4 @@
-package com.razvantmz.recyclerviewsync.ui.notifications
+package com.razvantmz.recyclerviewsync.ui.home.listeners
 
 import android.util.Log
 import android.view.MotionEvent

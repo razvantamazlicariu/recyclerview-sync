@@ -14,12 +14,13 @@ class HomeViewModel : ViewModel() {
     val item: LiveData<ParentItem> = _item
 
     init {
+        val itemCount = 20;
         val parentItem = ParentItem().apply {
-            numbers1 = generateItem(20, Color.MAGENTA)
-            numbers2 = generateItem(20, Color.YELLOW)
-            numbers3 = generateItem(20, Color.RED)
-            numbers4 = generateItem(20, Color.GRAY)
-            numbers5 = generateItem(20, Color.GREEN)
+            numbers1 = generateItem(itemCount, Color.MAGENTA)
+            numbers2 = generateItem(itemCount, Color.YELLOW)
+            numbers3 = generateItem(itemCount, Color.RED)
+            numbers4 = generateItem(itemCount, Color.GRAY)
+            numbers5 = generateItem(itemCount, Color.GREEN)
         }
 
         _item.value = parentItem

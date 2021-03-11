@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ParentItem
 import com.razvantmz.recyclerviewsync.ui.dashboard.ParentRecyclerViewHolder
+import com.razvantmz.recyclerviewsync.ui.home.listeners.SyncOnItemTouchListener2
 
 class ParentRecyclerViewAdapter2(private var item: ParentItem) : RecyclerView.Adapter<ParentRecyclerViewHolder>() {
     private val rvList: ArrayList<RecyclerView> = arrayListOf()
@@ -29,7 +30,10 @@ class ParentRecyclerViewAdapter2(private var item: ParentItem) : RecyclerView.Ad
     }
 
     private fun syncRecyclerViewScroll(){
-        val syncOnItemTouchListener = SyncOnItemTouchListener2(rvList)
+        val syncOnItemTouchListener =
+            SyncOnItemTouchListener2(
+                rvList
+            )
         rvList.forEach {
             it.addOnItemTouchListener(syncOnItemTouchListener)
         }

@@ -3,9 +3,11 @@ package com.razvantmz.recyclerviewsync.ui.dashboard
 import android.content.ClipData
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.R
 import com.razvantmz.recyclerviewsync.ui.dashboard.drag.DragListener
+
 
 class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : RecyclerView.Adapter<ChildRecyclerViewHolder>(), View.OnLongClickListener {
 
@@ -13,7 +15,7 @@ class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : Recyc
         val holder = ChildRecyclerViewHolder.create(parent)
         holder.binding.container.setOnLongClickListener(this)
         holder.binding.container.setOnDragListener(DragListener(listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)))
-        return  holder
+        return holder
     }
 
     override fun getItemCount(): Int = items.count()
@@ -37,4 +39,6 @@ class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : Recyc
         v?.startDragAndDrop(data, shadowBuilder, v, 0)
         return true
     }
+
+
 }

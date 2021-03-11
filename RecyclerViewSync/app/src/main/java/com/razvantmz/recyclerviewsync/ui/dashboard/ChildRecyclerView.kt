@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
-import com.razvantmz.recyclerviewsync.ui.notifications.SyncOnItemTouchListener2
+import com.razvantmz.recyclerviewsync.ui.home.listeners.SyncOnItemTouchListener2
 
 class ChildRecyclerView : RecyclerView {
     constructor(context: Context) : super(context)

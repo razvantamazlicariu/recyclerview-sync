@@ -3,10 +3,10 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:background="#B3888888"
     android:minWidth="150dp">
     <TextView
         android:id="@+id/text"
-        android:text="asd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"

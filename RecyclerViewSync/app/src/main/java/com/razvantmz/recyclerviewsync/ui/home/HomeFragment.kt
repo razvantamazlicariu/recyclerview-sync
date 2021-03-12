@@ -1,6 +1,7 @@
 package com.razvantmz.recyclerviewsync.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -39,6 +40,8 @@ class HomeFragment : Fragment() {
                 rvList
             )
 
+
+
         rvList.forEachIndexed { index, childRecyclerView ->
             childRecyclerView.apply {
                 addItemDecoration(ItemOffsetDecoration(offsetPx))
@@ -51,7 +54,6 @@ class HomeFragment : Fragment() {
 //                ItemTouchHelper(DragAndDropListener()).attachToRecyclerView(this)
             }
         }
-
 
         return binding.root
     }

@@ -1,5 +1,6 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard
 
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ class ChildRecyclerViewHolder(val binding: RowChildReyclerViewBinding) : Recycle
         binding.text.text = item.number.toString()
         binding.container.setBackgroundColor(item.color)
         binding.container.tag = position
+
         val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, item.number.toFloat(), itemView.context.resources.displayMetrics)
 //        val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Random.nextInt(20, 200).toFloat(), itemView.context.resources.displayMetrics)
         binding.container.layoutParams.width = widthPx.toInt()
@@ -25,6 +27,24 @@ class ChildRecyclerViewHolder(val binding: RowChildReyclerViewBinding) : Recycle
         fun create(parent: ViewGroup): ChildRecyclerViewHolder {
             val binding = RowChildReyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return ChildRecyclerViewHolder(binding)
+        }
+    }
+}
+
+class ChildPlaceholder(val binding: RowChildReyclerViewBinding) : RecyclerView.ViewHolder(binding.root)
+{
+    fun bind(position:Int) {
+        binding.container.setBackgroundColor(Color.parseColor("#B3888888"))
+        binding.container.tag = position
+        val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, PLACEHOLDER_WIDTH_DP, itemView.context.resources.displayMetrics)
+        binding.container.layoutParams.width = widthPx.toInt()
+    }
+
+    companion object {
+        const val PLACEHOLDER_WIDTH_DP = 14 * 5f
+        fun create(parent: ViewGroup): ChildPlaceholder {
+            val binding = RowChildReyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return ChildPlaceholder(binding)
         }
     }
 }

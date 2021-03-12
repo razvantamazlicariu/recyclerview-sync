@@ -18,7 +18,7 @@ class HomeViewModel : ViewModel() {
         val parentItem = ParentItem().apply {
             numbers1 = generateItem(itemCount, Color.MAGENTA)
             numbers2 = generateItem(itemCount, Color.YELLOW)
-            numbers3 = generateItem(itemCount, Color.RED)
+            numbers3 = generateItem(itemCount, Color.CYAN)
             numbers4 = generateItem(itemCount, Color.GRAY)
             numbers5 = generateItem(itemCount, Color.GREEN)
         }

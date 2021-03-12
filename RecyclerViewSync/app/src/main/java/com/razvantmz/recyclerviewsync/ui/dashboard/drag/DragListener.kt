@@ -4,12 +4,10 @@ import android.graphics.Color
 import android.util.Log
 import android.view.DragEvent
 import android.view.View
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerViewAdapter
-import com.razvantmz.recyclerviewsync.ui.home.ShadowFrameLayout
 import com.razvantmz.recyclerviewsync.ui.home.listeners.SyncOnItemTouchListener2
 
 
@@ -20,31 +18,21 @@ object DragListener: View.OnDragListener {
 
     private var isDropped:Boolean = false
     private var viewSource: View? = null
-    private var viewSourceParent: ChildRecyclerView? = null
+
+    private var currentSourceRecyclerView: ChildRecyclerView? = null
+
+    private var currentTargetRecyclerView: ChildRecyclerView? = null
+    private var previousTargetRecyclerView: ChildRecyclerView? = null
 
     private var dragStarted:Boolean = false
 
     fun dragStarted():Boolean = dragStarted
 
     override fun onDrag(v: View, event: DragEvent?): Boolean {
-        if(event?.action == DragEvent.ACTION_DRAG_STARTED || event?.action == DragEvent.ACTION_DRAG_LOCATION || event?.action == DragEvent.ACTION_DROP) {
-//            val container = (v.parent.parent as LinearLayout)
-//            val containerHeight = container.measuredHeight
-//            val shaodwX = event?.x
-//            val shadowY = event?.y ?: 0f
-            val shadowView = v as ShadowFrameLayout
-            if(event.y > 100) {
-                shadowView.shadowBuilder?.setBackgroundColorCustom(Color.GREEN)
-            } else {
-                shadowView.shadowBuilder?.setBackgroundColorCustom(null)
-            }
-
-//            if(containerHeight < shadowY){
-//                v.setBackgroundColor(Color.BLACK)
-//            }
-
+        if(v.parent == null) {
+            return true
         }
-
+        currentTargetRecyclerView = (v.parent as ChildRecyclerView)
         when(event?.action) {
 
             DragEvent.ACTION_DRAG_STARTED -> {
@@ -55,28 +43,37 @@ object DragListener: View.OnDragListener {
             DragEvent.ACTION_DROP -> onItemDropped(v, event)
             DragEvent.ACTION_DRAG_ENTERED -> {
                 dragStarted = true
-                Log.d("##DRAG", "Instance $this")
-                Log.d("##DRAG", "viewSource is null ${viewSource == null}")
                 if(viewSource == null) {
                     Log.d("##DRAG", "Added to queue ${event.localState}")
                     viewSource = event.localState as View?
-                    viewSourceParent = viewSource?.parent as ChildRecyclerView
-//                    syncOnItemTouchListener2?.onInterceptTouchEvent(viewSourceParent as RecyclerView, event)
-                    viewSourceParent?.tag as Int
+                    if(viewSource?.parent != null) {
+                        currentSourceRecyclerView = viewSource?.parent as ChildRecyclerView
+                        currentTargetRecyclerView?.tag as Int
+                    }
                 }
 
+                setPermissionColorsIfNeeded()
 //                handleScroll(v.parent as ChildRecyclerView, v, event)
+            }
+            DragEvent.ACTION_DRAG_EXITED -> {
+                viewSource = null
+                currentSourceRecyclerView = null
             }
         }
 
         if (!isDropped && event?.localState != null) {
             (event.localState as View).visibility = View.VISIBLE
         }
+        previousTargetRecyclerView = currentTargetRecyclerView
         return true
     }
 
     private fun onItemDropped(v: View, event: DragEvent?) {
-        isDropped = true
+        if (!canBeDropped(currentSourceRecyclerView?.tag as Int?, currentTargetRecyclerView?.tag as Int?)) {
+            (previousTargetRecyclerView?.adapter as ChildRecyclerViewAdapter).setChildrenColor(null)
+            return
+        }
+            isDropped = true
         var positionTarget = -1
         val viewId = v.id
         if(dropSources?.any { id -> id == viewId } ?: false) {
@@ -84,7 +81,7 @@ object DragListener: View.OnDragListener {
             positionTarget = v.tag as Int
 
             if(viewSource != null) {
-                val adapterSource = viewSourceParent?.adapter as ChildRecyclerViewAdapter
+                val adapterSource = currentSourceRecyclerView?.adapter as ChildRecyclerViewAdapter
                 val positionSource = viewSource?.tag as Int
                 val targetItem = adapterSource.getItems()[positionSource]
 
@@ -106,10 +103,27 @@ object DragListener: View.OnDragListener {
 
                 Log.d("##DRAG", "item dropped")
                 viewSource = null
-                viewSourceParent = null
+                currentSourceRecyclerView = null
                 dragStarted = false
             }
         }
+    }
+
+    private fun setPermissionColorsIfNeeded() {
+        if (!canBeDropped(currentSourceRecyclerView?.tag as Int?, currentTargetRecyclerView?.tag as Int?)) {
+            (currentTargetRecyclerView?.adapter as ChildRecyclerViewAdapter).setChildrenColor(Color.RED)
+        }
+
+        if(previousTargetRecyclerView?.tag != currentTargetRecyclerView?.tag) {
+            (previousTargetRecyclerView?.adapter as ChildRecyclerViewAdapter).setChildrenColor(null)
+        }
+    }
+
+    private fun canBeDropped(sourceTag:Int?, targetTag:Int?):Boolean {
+        if(sourceTag == null || targetTag == null) {
+            return false
+        }
+        return targetTag <= sourceTag
     }
 
     private fun handleScroll(

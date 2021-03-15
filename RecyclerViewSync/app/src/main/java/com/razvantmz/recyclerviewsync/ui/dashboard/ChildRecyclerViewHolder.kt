@@ -17,8 +17,8 @@ class ChildRecyclerViewHolder(val binding: RowChildReyclerViewBinding) : Recycle
         binding.text.text = item.duration.toString()
         val rnd = Random()
         val color: Int = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-        binding.container.setBackgroundColor(color)
-//        binding.container.setBackgroundColor(item.color)
+//        binding.container.setBackgroundColor(color)
+        binding.container.setBackgroundColor(item.color)
         binding.container.tag = position
         val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, item.duration.toFloat() * 14f, itemView.context.resources.displayMetrics)
 //        val widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Random.nextInt(20, 200).toFloat(), itemView.context.resources.displayMetrics)

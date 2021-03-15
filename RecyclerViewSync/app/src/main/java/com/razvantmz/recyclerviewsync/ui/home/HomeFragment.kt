@@ -54,7 +54,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-
         return binding.root
     }
 }
@@ -80,35 +79,12 @@ class TimeSyncDecoration() : RecyclerView.ItemDecoration() {
         val previousTimeInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, previousItemsOffset * 14f, parent.context.resources.displayMetrics).toInt()
 
         val left = startTimeInPx - previousTimeInPx
-
         if(position == adapter.itemCount - 1) {
             val right = minWidth - adapter.getItems().sumBy { childItem -> childItem.duration + childItem.startTime }
             outRect.set(left, 0, right, 0)
+
         } else {
             outRect.set(left, 0, 0, 0)
         }
     }
-
-//    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-//        val adapter = parent.adapter as ChildRecyclerViewAdapter
-//        val layoutManger = parent.layoutManager as LinearLayoutManager
-//        val position = layoutManger.getPosition(view)
-//        val item = adapter.getItemAtPosition(position)
-//        val nextItem = adapter.getItemAtPosition(if (position == 0) 0 else position + 1)
-//        val nextItemsOffset = if (position == 0) 0 else nextItem.startTime + nextItem.duration
-//
-//
-//
-//        val startTimeInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, item.startTime * 14f, parent.context.resources.displayMetrics).toInt()
-//        val previousTimeInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, previousItemsOffset * 14f, parent.context.resources.displayMetrics).toInt()
-//
-//        val left = startTimeInPx - previousTimeInPx
-//
-//        if(position == adapter.itemCount - 1) {
-//            val right = minWidth - adapter.getItems().sumBy { childItem -> childItem.duration + childItem.startTime }
-//            outRect.set(left, 0, right, 0)
-//        } else {
-//            outRect.set(left, 0, 0, 0)
-//        }
-//    }
 }

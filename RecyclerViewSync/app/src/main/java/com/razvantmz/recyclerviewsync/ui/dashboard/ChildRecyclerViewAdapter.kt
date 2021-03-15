@@ -10,16 +10,15 @@ import com.razvantmz.recyclerviewsync.ui.dashboard.drag.DragListener
 
 
 class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : RecyclerView.Adapter<ChildRecyclerViewHolder>(), View.OnLongClickListener {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChildRecyclerViewHolder {
         val holder = ChildRecyclerViewHolder.create(parent)
         holder.binding.container.setOnLongClickListener(this)
 
-//        val dragListener = DragListener;
-//        val sourceList = listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)
-//        dragListener.dropSources = sourceList
-//        holder.binding.container.setOnDragListener(dragListener)
-        holder.binding.container.setOnDragListener(DragListener(listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)))
+        val dragListener = DragListener;
+        val sourceList = listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)
+        dragListener.dropSources = sourceList
+        holder.binding.container.setOnDragListener(dragListener)
+//        holder.binding.container.setOnDragListener(DragListener(listOf(R.id.container, R.id.recyclerView1, R.id.recyclerView2, R.id.recyclerView3, R.id.recyclerView4, R.id.recyclerView5)))
 
         return holder
     }

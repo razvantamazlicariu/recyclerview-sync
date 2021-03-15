@@ -1,25 +1,38 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard.drag
 
-import android.util.Log
 import android.view.DragEvent
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerViewAdapter
 
-class DragListener(private val dropSources: List<Int>): View.OnDragListener {
+object DragListener: View.OnDragListener {
     private var isDropped:Boolean = false
+    lateinit var dropSources: List<Int>
 
     override fun onDrag(v: View, event: DragEvent?): Boolean {
         when(event?.action) {
             DragEvent.ACTION_DROP -> onItemDropped(v, event)
+            DragEvent.ACTION_DRAG_ENDED -> onDragEnded(v, event)
+            DragEvent.ACTION_DRAG_STARTED -> {
+                isDropped = false
+            }
         }
-
-        if (!isDropped && event?.localState != null) {
-            (event.localState as View).visibility = View.VISIBLE
-        }
+//
+//        if (!isDropped && event?.localState != null) {
+//            (event.localState as View).visibility = View.VISIBLE
+//        }
         return true
+    }
+
+    private fun onDragEnded(v: View, event: DragEvent?) {
+        if(isDropped) {
+            return
+        }
+        var positionTarget = -1
+        val viewSource = event?.localState as View?
+        val viewId = v.id
+        val target: RecyclerView = v.parent.parent as RecyclerView
+
     }
 
     private fun onItemDropped(v: View, event: DragEvent?) {
@@ -28,11 +41,11 @@ class DragListener(private val dropSources: List<Int>): View.OnDragListener {
         val viewSource = event?.localState as View?
         val viewId = v.id
         if(dropSources.any { id -> id == viewId }) {
-            val target: RecyclerView = v.parent as RecyclerView
+            val target: RecyclerView = v.parent.parent as RecyclerView
             positionTarget = v.tag as Int
 
             if(viewSource != null) {
-                val source = viewSource.parent as RecyclerView
+                val source = viewSource.parent.parent as RecyclerView
                 val adapterSource = source.adapter as ChildRecyclerViewAdapter
                 val positionSource = viewSource.tag as Int
                 val targetItem = adapterSource.getItems()[positionSource]
@@ -48,8 +61,32 @@ class DragListener(private val dropSources: List<Int>): View.OnDragListener {
                 val targetList = targetAdapter.getItems()
                 if (positionTarget >= 0) {
                     targetItem.let { targetList.add(positionTarget, it) }
+
                 } else {
                     targetItem.let { targetList.add(it) }
+                }
+                targetList.forEachIndexed{index, childItem ->
+                    //when items are swapped in the same recycler
+                    if(adapterSource == targetAdapter) {
+                        when(index) {
+                            positionTarget -> {
+                                //update start time of the target
+                                if(positionSource > positionTarget) {
+                                    childItem.startTime = adapterSource.getItems()[positionSource].startTime
+                                    adapterSource.getItems()[positionSource].startTime += childItem.duration
+                                } else {
+                                    adapterSource.getItems()[positionSource].startTime = childItem.startTime
+                                    adapterSource.getItems()[positionTarget].startTime += adapterSource.getItems()[positionSource].duration
+                                }
+                            }
+                        }
+                    } else {
+                        // a new item was added to the target list
+                        if(index > positionTarget) {
+                            //update start time of the items, because a new item was added
+                            childItem.startTime += targetItem.duration
+                        }
+                    }
                 }
                 targetAdapter.updateList(targetList)
             }

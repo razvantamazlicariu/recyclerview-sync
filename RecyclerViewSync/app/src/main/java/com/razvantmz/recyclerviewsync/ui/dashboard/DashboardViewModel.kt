@@ -26,7 +26,7 @@ class DashboardViewModel : ViewModel() {
     fun generateItem(count:Int, color:Int):MutableList<ChildItem> {
         val arrayList = arrayListOf<ChildItem>()
         for(i in 10..count*10 step 10) {
-            arrayList.add(ChildItem(i, color))
+            arrayList.add(ChildItem(i, color, 10))
         }
         return  arrayList.toMutableList()
     }

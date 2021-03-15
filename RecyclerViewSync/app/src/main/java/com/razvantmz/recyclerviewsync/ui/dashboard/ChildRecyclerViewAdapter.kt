@@ -34,6 +34,10 @@ class ChildRecyclerViewAdapter(private var items:MutableList<ChildItem>) : Recyc
         return items
     }
 
+    fun getItemAtPosition(position: Int): ChildItem {
+        return items[position]
+    }
+
     fun updateList(items: MutableList<ChildItem>) {
         this.items = items
         notifyDataSetChanged()

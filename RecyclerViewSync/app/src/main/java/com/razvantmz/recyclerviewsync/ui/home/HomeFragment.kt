@@ -35,10 +35,7 @@ class HomeFragment : Fragment() {
         rvList.add(binding.recyclerView5)
 
         val offsetPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
-        val listener2 =
-            SyncOnItemTouchListener2(
-                rvList
-            )
+        val listener2 = SyncOnItemTouchListener2(rvList)
 
         val minTime =TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60 * 60 * 14f, context?.resources?.displayMetrics).toInt()
         rvList.forEachIndexed { index, childRecyclerView ->
@@ -50,7 +47,6 @@ class HomeFragment : Fragment() {
                 isNestedScrollingEnabled = false
                 addOnItemTouchListener(listener2)
                 clipChildren = false
-//                ItemTouchHelper(DragAndDropListener()).attachToRecyclerView(this)
             }
         }
 
@@ -82,8 +78,9 @@ class TimeSyncDecoration() : RecyclerView.ItemDecoration() {
         if(position == adapter.itemCount - 1) {
             val right = minWidth - adapter.getItems().sumBy { childItem -> childItem.duration + childItem.startTime }
             outRect.set(left, 0, right, 0)
-
+//            view.setPadding(left, 0, right, 0)
         } else {
+//            view.setPadding(left, 0, 0, 0)
             outRect.set(left, 0, 0, 0)
         }
     }

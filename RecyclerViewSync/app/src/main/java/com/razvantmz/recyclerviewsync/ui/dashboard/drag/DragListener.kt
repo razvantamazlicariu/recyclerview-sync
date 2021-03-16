@@ -1,38 +1,40 @@
 package com.razvantmz.recyclerviewsync.ui.dashboard.drag
 
+import android.util.Log
 import android.view.DragEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.razvantmz.recyclerviewsync.ui.dashboard.ChildRecyclerViewAdapter
 
-object DragListener: View.OnDragListener {
+class DragListener(var dropSources: List<Int>): View.OnDragListener {
     private var isDropped:Boolean = false
-    lateinit var dropSources: List<Int>
 
     override fun onDrag(v: View, event: DragEvent?): Boolean {
         when(event?.action) {
             DragEvent.ACTION_DROP -> onItemDropped(v, event)
-            DragEvent.ACTION_DRAG_ENDED -> onDragEnded(v, event)
             DragEvent.ACTION_DRAG_STARTED -> {
                 isDropped = false
+                return true
             }
         }
+        Log.e("##Events", "isDropped: $isDropped Action: ${logEventAction(event?.action)}")
 //
 //        if (!isDropped && event?.localState != null) {
 //            (event.localState as View).visibility = View.VISIBLE
 //        }
-        return true
+        return false
     }
 
-    private fun onDragEnded(v: View, event: DragEvent?) {
-        if(isDropped) {
-            return
+    private fun logEventAction(action:Int?):String {
+        when(action){
+            1 -> return "ACTION_DRAG_STARTED"
+            2 -> return "ACTION_DRAG_LOCATION"
+            3 -> return "ACTION_DROP"
+            4 -> return "ACTION_DRAG_ENDED"
+            5 -> return "ACTION_DRAG_ENTERED"
+            6 -> return "ACTION_DRAG_EXITED"
         }
-        var positionTarget = -1
-        val viewSource = event?.localState as View?
-        val viewId = v.id
-        val target: RecyclerView = v.parent.parent as RecyclerView
-
+        return  "Unknown -> $action"
     }
 
     private fun onItemDropped(v: View, event: DragEvent?) {
@@ -41,11 +43,11 @@ object DragListener: View.OnDragListener {
         val viewSource = event?.localState as View?
         val viewId = v.id
         if(dropSources.any { id -> id == viewId }) {
-            val target: RecyclerView = v.parent.parent as RecyclerView
-            positionTarget = v.tag as Int
+            val target: RecyclerView = v.parent as RecyclerView
+            positionTarget = v.tag as Int? ?: -1
 
             if(viewSource != null) {
-                val source = viewSource.parent.parent as RecyclerView
+                val source = viewSource.parent as RecyclerView
                 val adapterSource = source.adapter as ChildRecyclerViewAdapter
                 val positionSource = viewSource.tag as Int
                 val targetItem = adapterSource.getItems()[positionSource]
